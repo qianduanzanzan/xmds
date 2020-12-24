@@ -2,6 +2,9 @@ package com.atxiaoming.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +25,7 @@ public class TbUser implements Serializable {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Long id;
 
     /**
      * 用户名称
@@ -47,17 +50,17 @@ public class TbUser implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createAt;
+    private String createAt;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateAt;
+    private String updateAt;
 
     /**
      * 删除时间
      */
-    private LocalDateTime deleteAt;
+    private String deleteAt;
 
 
 }

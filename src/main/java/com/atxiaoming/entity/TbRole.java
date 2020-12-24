@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,7 +27,8 @@ public class TbRole implements Serializable {
     /**
      * 角色ID
      */
-    private Integer roleId;
+    @TableId(type = IdType.AUTO)
+    private int id;
 
     /**
      * 角色名称
@@ -36,18 +39,18 @@ public class TbRole implements Serializable {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT) //添加自动填充，在插入时使用
-    private LocalDateTime createAt;
+    private String createAt;
 
     /**
      * 更新时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE) //添加自动填充，在插入和修改时使用
-    private LocalDateTime updateAt;
+    private String updateAt;
 
     /**
      * 删除时间
      */
-    private LocalDateTime deleteAt;
+    private String deleteAt;
 
 
 }

@@ -14,13 +14,13 @@ import java.util.Date;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-        this.setFieldValByName("create_at",dateFormat.format(new Date()),metaObject);
-        this.setFieldValByName("update_at",dateFormat.format(new Date()),metaObject);
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.setFieldValByName("createAt",dateFormat.format(new Date()),metaObject);
+        this.setFieldValByName("updateAt",dateFormat.format(new Date()),metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("update_at",new Date(),metaObject);
+        this.setFieldValByName("updateAt",new Date(),metaObject);
     }
 }
