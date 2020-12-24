@@ -1,4 +1,4 @@
-package com.ckf.crm_generator.controller;
+package com.atxiaoming.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
  *  前端控制器
  * </p>
  *
- * @author 安详的苦丁茶
+ * @author 小明
  * @since 2020-12-24
  */
 @RestController
-@RequestMapping("/tbRole")
-public class TbRoleController {
+@RequestMapping("/tbUser")
+public class TbUserController {
 
 }

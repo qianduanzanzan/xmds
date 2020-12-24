@@ -15,11 +15,11 @@ import java.util.Scanner;
 /**
  * 代码生成器类
  *
- * @author 安详的苦丁茶
+ * @author 小明
  * @version 1.0
  * @date 2020/3/23 15:53
  */
-public class code_generator {
+public class CodeGenerator {
 
     /**
      * <p>
@@ -48,7 +48,7 @@ public class code_generator {
         GlobalConfig gc = new GlobalConfig();
         final String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("安详的苦丁茶");
+        gc.setAuthor("小明");
         gc.setBaseResultMap(true);
         gc.setBaseColumnList(true);
         // 是否打开输出目录 默认为true
@@ -66,7 +66,7 @@ public class code_generator {
         // 包配置
         final PackageConfig pc = new PackageConfig();
         // pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.ckf.crm_generator");
+        pc.setParent("com.atxiaoming");
         mpg.setPackageInfo(pc);
 
         // 自定义配置

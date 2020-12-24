@@ -1,4 +1,4 @@
-package com.ckf.crm_generator.entity;
+package com.atxiaoming.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * 
  * </p>
  *
- * @author 安详的苦丁茶
+ * @author 小明
  * @since 2020-12-24
  */
 @Data

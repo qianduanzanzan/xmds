@@ -1,6 +1,6 @@
-package com.ckf.crm_generator.mapper;
+package com.atxiaoming.mapper;
 
-import com.ckf.crm_generator.entity.TbRole;
+import com.atxiaoming.entity.TbRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  *  Mapper 接口
  * </p>
  *
- * @author 安详的苦丁茶
+ * @author 小明
  * @since 2020-12-24
  */
 public interface TbRoleMapper extends BaseMapper<TbRole> {

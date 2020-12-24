@@ -1,8 +1,8 @@
-package com.ckf.crm_generator.service.impl;
+package com.atxiaoming.service.impl;
 
-import com.ckf.crm_generator.entity.TbUser;
-import com.ckf.crm_generator.mapper.TbUserMapper;
-import com.ckf.crm_generator.service.ITbUserService;
+import com.atxiaoming.entity.TbUser;
+import com.atxiaoming.mapper.TbUserMapper;
+import com.atxiaoming.service.ITbUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  *  服务实现类
  * </p>
  *
- * @author 安详的苦丁茶
+ * @author 小明
  * @since 2020-12-24
  */
 @Service
