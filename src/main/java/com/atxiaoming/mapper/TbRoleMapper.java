@@ -2,6 +2,7 @@ package com.atxiaoming.mapper;
 
 import com.atxiaoming.entity.TbRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 小明
  * @since 2020-12-24
  */
+@Repository
 public interface TbRoleMapper extends BaseMapper<TbRole> {
 
 }

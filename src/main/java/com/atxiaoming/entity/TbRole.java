@@ -2,6 +2,9 @@ package com.atxiaoming.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,11 +35,13 @@ public class TbRole implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT) //添加自动填充，在插入时使用
     private LocalDateTime createAt;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE) //添加自动填充，在插入和修改时使用
     private LocalDateTime updateAt;
 
     /**
