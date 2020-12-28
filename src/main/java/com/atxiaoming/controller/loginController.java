@@ -11,10 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +28,11 @@ public class loginController {
     @RequestMapping(value="/login",method= RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
     public RespBean doLogin(@RequestBody LoginVo loginVo){
         return userServiceI.doLogin(loginVo);
+    }
+
+    @ApiOperation(value = "退出登录" ,  notes="退出登录接口")
+    @RequestMapping(value="/logout",method= RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
+    public RespBean logout(@RequestHeader("token") String token){
+        return userServiceI.logOut(token);
     }
 }
