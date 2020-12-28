@@ -3,10 +3,7 @@ package com.atxiaoming.entity;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -51,6 +48,8 @@ public class TbRole implements Serializable {
      * 删除时间
      */
     private String deleteAt;
+    @TableLogic //mp自带的逻辑删除注解
+    private Integer delFlag; //删除标志
 
 
 }

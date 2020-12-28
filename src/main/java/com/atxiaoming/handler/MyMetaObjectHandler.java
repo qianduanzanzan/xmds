@@ -21,6 +21,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("updateAt",new Date(),metaObject);
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.setFieldValByName("updateAt",dateFormat.format(new Date()),metaObject);
     }
 }
