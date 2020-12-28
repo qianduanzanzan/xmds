@@ -30,6 +30,11 @@ public class TbUser implements Serializable {
     private Long id;
 
     /**
+     * 用户账号
+     */
+    private String account;
+
+    /**
      * 用户名称
      */
     private String userName;
