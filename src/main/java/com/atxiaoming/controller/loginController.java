@@ -35,4 +35,10 @@ public class loginController {
     public RespBean logout(@RequestHeader("token") String token){
         return userServiceI.logOut(token);
     }
+
+    @ApiOperation(value = "验证登录" ,  notes="验证登陆状态")
+    @RequestMapping(value="/checkLogin",method= RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
+    public RespBean checkLogin(@RequestBody String token){
+        return userServiceI.checkLogin(token);
+    }
 }

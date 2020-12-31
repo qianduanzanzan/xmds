@@ -9,12 +9,11 @@ import com.atxiaoming.vo.RespBean;
 import com.atxiaoming.vo.RespBeanEnum;
 import com.atxiaoming.vo.UserInfoVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.tomcat.util.http.parser.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +39,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     public RespBean doLogin(LoginVo loginVo) {
         String account = loginVo.getAccount();
         String password = loginVo.getPassword();
-        if(!StringUtils.isNotBlank(account) || !StringUtils.isNotBlank(password)){
+        if(StringUtils.isEmpty(account) || StringUtils.isEmpty(password)){
             return RespBean.error(RespBeanEnum.ACCPWD_NOT_EMPTY);
         }
         QueryWrapper wrapper = new QueryWrapper();
@@ -59,9 +58,10 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         userInfo.setRoleId(user.getRoleId());
         userInfo.setCreateAt(user.getCreateAt());
         userInfo.setUpdateAt(user.getUpdateAt());
+        userInfo.setAccount(user.getAccount());
         String token = tokenUtil.createToken(user);
         userInfo.setToken(token);
-        redisTemplate.opsForValue().set(token, user,60 * 60 * 6, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(token, userInfo,60 * 60 * 6, TimeUnit.SECONDS);
         return RespBean.success(userInfo);
     }
 
@@ -75,13 +75,13 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     }
 
     public RespBean addUser(TbUser user){
-        if(!StringUtils.isNotBlank(user.getUserName())){
+        if(StringUtils.isEmpty(user.getUserName())){
             return RespBean.error(RespBeanEnum.NAME_NOT_EMPTY);
         }
-        if(!StringUtils.isNotBlank(user.getAccount())){
+        if(StringUtils.isEmpty(user.getAccount())){
             return RespBean.error(RespBeanEnum.ACC_NOT_EMPTY);
         }
-        if(!StringUtils.isNotBlank(user.getPassword())){
+        if(StringUtils.isEmpty(user.getPassword())){
             return RespBean.error(RespBeanEnum.PWD_NOT_EMPTY);
         }
         try{
@@ -89,6 +89,19 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
             return RespBean.success();
         }catch (Exception e){
             System.out.println(e);
+            return RespBean.error(RespBeanEnum.ERROR);
+        }
+    }
+
+    public RespBean checkLogin(String token){
+        try {
+            Object loginUser = redisTemplate.opsForValue().get(token);
+            if(StringUtils.isEmpty(loginUser)){
+                return RespBean.error(RespBeanEnum.NOT_LOGIN);
+            }else{
+                return RespBean.success(loginUser);
+            }
+        }catch (Exception e){
             return RespBean.error(RespBeanEnum.ERROR);
         }
     }

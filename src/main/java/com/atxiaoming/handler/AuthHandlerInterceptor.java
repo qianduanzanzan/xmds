@@ -26,16 +26,15 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             PrintWriter writer = null;
             //如果U-TOKEN为空则证明没有登录
             if (StringUtils.isEmpty(token)) {
-                writeJosn(response, "noUser");
+                writeJosn(response, "用户未登录");
                 //拦截
                 return false;
             }
             //token（id）不为0，如果redis的velue为空，则账号密码过期
             Object loginUser = redisTemplate.opsForValue().get(token);
-            System.out.println(loginUser);
             if (StringUtils.isEmpty(loginUser)) {
                 //过期
-                writeJosn(response, "expireUser");
+                writeJosn(response, "登录已过期");
                 return false;
             }
             //第一次或者第n次请求 刷新保存时间
@@ -51,7 +50,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
          */
         private void writeJosn(HttpServletResponse response, String msg) {
             PrintWriter writer = null;
-            //如果U-TOKEN为空则证明没有登录
+            //如果token为空则证明没有登录
             try {
                 //没有登录 就告诉前台 应该跳到登录页面 （前台用后置拦截器接受：在每次请求后响应之前拦截，就是有res以后执行成功函数之前）
                 //告诉前台我要传的数据格式 和字符集

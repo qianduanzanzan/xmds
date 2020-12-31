@@ -12,7 +12,7 @@ public class RespBean {
 
     private  long code;
     private  String msg;
-    private Object obj;
+    private Object data;
 
     public  static RespBean success(){
         return new RespBean(RespBeanEnum.SUCCESS.getCode(),RespBeanEnum.SUCCESS.getMsg(),null);

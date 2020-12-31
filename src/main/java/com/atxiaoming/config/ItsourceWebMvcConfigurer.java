@@ -27,7 +27,12 @@ public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
 
          */
         //告诉springboot 我配置了一个拦截器
-        registry.addInterceptor(authHandlerInterceptor).addPathPatterns("/role/**").addPathPatterns("/user/**")
-                .excludePathPatterns("/login").excludePathPatterns("/doc.html/**").excludePathPatterns("/swagger-ui.html/**");
+        registry.addInterceptor(authHandlerInterceptor)
+                .addPathPatterns("/role/**")
+                .addPathPatterns("/user/**")
+                .excludePathPatterns("/login")
+                .excludePathPatterns("/checkLogin")
+                .excludePathPatterns("/doc.html/**")
+                .excludePathPatterns("/swagger-ui.html/**");
     }
 }
