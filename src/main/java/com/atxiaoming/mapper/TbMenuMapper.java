@@ -2,6 +2,7 @@ package com.atxiaoming.mapper;
 
 import com.atxiaoming.entity.TbMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -9,8 +10,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 小明
- * @since 2020-12-31
+ * @since 2021-01-04
  */
+@Repository
 public interface TbMenuMapper extends BaseMapper<TbMenu> {
 
 }
