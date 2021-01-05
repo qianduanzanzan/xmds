@@ -26,7 +26,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             PrintWriter writer = null;
             //如果U-TOKEN为空则证明没有登录
             if (StringUtils.isEmpty(token)) {
-                writeJosn(response, "用户未登录");
+                writeJosn(response, "用户未登录",52000);
                 //拦截
                 return false;
             }
@@ -34,7 +34,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             Object loginUser = redisTemplate.opsForValue().get(token);
             if (StringUtils.isEmpty(loginUser)) {
                 //过期
-                writeJosn(response, "登录已过期");
+                writeJosn(response, "登录已过期",52001);
                 return false;
             }
             //第一次或者第n次请求 刷新保存时间
@@ -48,7 +48,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
          * @param response
          * @param msg
          */
-        private void writeJosn(HttpServletResponse response, String msg) {
+        private void writeJosn(HttpServletResponse response, String msg,Integer code) {
             PrintWriter writer = null;
             //如果token为空则证明没有登录
             try {
@@ -58,7 +58,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
                 //要一个流
                 writer = response.getWriter();
                 //要把什么以json格式传给前台
-                writer.write("{\"success\":false,\"result\":\" " + msg + "\" }");
+                writer.write("{\"success\":false,\"result\":\" " + msg + "\",\"code\":\""+ code + "\" }");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

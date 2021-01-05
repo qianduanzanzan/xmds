@@ -4,10 +4,7 @@ import com.atxiaoming.entity.TbUser;
 import com.atxiaoming.mapper.TbUserMapper;
 import com.atxiaoming.service.ITbUserService;
 import com.atxiaoming.utils.TokenUtil;
-import com.atxiaoming.vo.LoginVo;
-import com.atxiaoming.vo.RespBean;
-import com.atxiaoming.vo.RespBeanEnum;
-import com.atxiaoming.vo.UserInfoVo;
+import com.atxiaoming.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +90,10 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         }
     }
 
-    public RespBean checkLogin(String token){
+    public RespBean checkLogin(TokenVo token){
+        if(StringUtils.isEmpty(token.getToken())){
+            return RespBean.error(RespBeanEnum.NOT_LOGIN);
+        }
         try {
             Object loginUser = redisTemplate.opsForValue().get(token);
             if(StringUtils.isEmpty(loginUser)){
