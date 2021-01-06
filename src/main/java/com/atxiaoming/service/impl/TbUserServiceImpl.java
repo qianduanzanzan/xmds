@@ -95,7 +95,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
             return RespBean.error(RespBeanEnum.NOT_LOGIN);
         }
         try {
-            Object loginUser = redisTemplate.opsForValue().get(token);
+            Object loginUser = redisTemplate.opsForValue().get(token.getToken());
             if(StringUtils.isEmpty(loginUser)){
                 return RespBean.error(RespBeanEnum.NOT_LOGIN);
             }else{

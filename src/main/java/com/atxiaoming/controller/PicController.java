@@ -26,37 +26,6 @@ public class PicController {
     @Autowired
     private OssTemplate ossTemplate;
 
-    @ApiOperation(value = "批量上传" ,  notes="批量上传图片")
-    @RequestMapping(value="/uploadList",method= RequestMethod.POST)
-    public RespBean uploadList(@RequestParam("filenames") MultipartFile[] filenames) throws IOException {
-        List<String> filePathList = new ArrayList<String>();
-
-
-        try {
-            for (MultipartFile filename : filenames) {
-                //获取源文件名
-                String oldName = filename.getOriginalFilename();
-                //获取输入流
-                InputStream inputStream = filename.getInputStream();
-
-                //防止文件重名
-                String newFileName = UUID.randomUUID().toString().replace("-", "").substring(4, 16)+"_"+oldName;
-
-                String uplosdFilePath = ossTemplate.upload(inputStream, newFileName);
-
-                filePathList.add(uplosdFilePath);
-
-            }
-
-            return RespBean.success(filePathList);
-        } catch (Exception e) {
-
-//            e.printStackTrace();
-            System.out.println(e);
-            return RespBean.error(null);
-        }
-    }
-
     @ApiOperation(value = "单个上传" ,  notes="单个文件上传")
     @RequestMapping(value="/upload",method= RequestMethod.POST)
     public RespBean upload(@RequestParam("filename") MultipartFile filename) throws IOException {
@@ -70,6 +39,18 @@ public class PicController {
         } catch (Exception e) {
 
 //            e.printStackTrace();
+            System.out.println(e);
+            return RespBean.error(null);
+        }
+    }
+
+    @ApiOperation(value = "删除图片" ,  notes="删除服务器图片")
+    @RequestMapping(value="/delete",method= RequestMethod.POST)
+    public RespBean delete(@RequestBody String filename) throws IOException {
+        try {
+            ossTemplate.delete(filename);
+            return RespBean.success();
+        } catch (Exception e) {
             System.out.println(e);
             return RespBean.error(null);
         }

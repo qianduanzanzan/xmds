@@ -18,7 +18,6 @@ public class OssTemplate {
     String bucketName ;
     String path ;
 
-    //  https://scw190624.oss-cn-beijing.aliyuncs.com/pic/p1.jpg
     public String upload(InputStream inputStream, String filename) {
         try {
 
@@ -32,6 +31,23 @@ public class OssTemplate {
             // 关闭OSSClient。
             ossClient.shutdown();
             return "https://"+bucketName+"."+endpoint+path+"/"+filename ;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public String delete(String filename) {
+        try {
+
+            // 创建OSSClient实例。
+            OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+
+            ossClient.deleteObject(bucketName, filename);
+            // 关闭OSSClient。
+            ossClient.shutdown();
+            return "success" ;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

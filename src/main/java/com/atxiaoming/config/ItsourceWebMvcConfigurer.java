@@ -31,6 +31,7 @@ public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/role/**")
                 .addPathPatterns("/user/**")
                 .addPathPatterns("/menu/**")
+                .addPathPatterns("/pic/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/checkLogin")
                 .excludePathPatterns("/doc.html/**")
