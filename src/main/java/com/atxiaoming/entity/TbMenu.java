@@ -18,8 +18,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class TbMenu implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @TableId(type = IdType.AUTO)
     private long id;
     /**

@@ -48,6 +48,14 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         if(!password.equals(user.getPassword())){
             return RespBean.error(RespBeanEnum.PWD_ERROR);
         }
+        UserInfoVo userInfo = userInfo(user);
+        String token = tokenUtil.createToken(user);
+        userInfo.setToken(token);
+        redisTemplate.opsForValue().set(token, userInfo,60 * 60 * 6, TimeUnit.SECONDS);
+        return RespBean.success(userInfo);
+    }
+
+    private UserInfoVo userInfo(TbUser user) {
         UserInfoVo userInfo = new UserInfoVo();
         userInfo.setId(user.getId());
         userInfo.setUserName(user.getUserName());
@@ -56,10 +64,7 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         userInfo.setCreateAt(user.getCreateAt());
         userInfo.setUpdateAt(user.getUpdateAt());
         userInfo.setAccount(user.getAccount());
-        String token = tokenUtil.createToken(user);
-        userInfo.setToken(token);
-        redisTemplate.opsForValue().set(token, userInfo,60 * 60 * 6, TimeUnit.SECONDS);
-        return RespBean.success(userInfo);
+        return userInfo;
     }
 
     public RespBean logOut(String token){
@@ -101,6 +106,18 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
             }else{
                 return RespBean.success(loginUser);
             }
+        }catch (Exception e){
+            return RespBean.error(RespBeanEnum.ERROR);
+        }
+    }
+
+    public RespBean getUser(UserIdVo userId) {
+        System.out.println(userId);
+        System.out.println("adasdasdasd");
+        try{
+            TbUser user = userMapper.selectById(userId.getId());
+            UserInfoVo userInfo = userInfo(user);
+            return RespBean.success(userInfo);
         }catch (Exception e){
             return RespBean.error(RespBeanEnum.ERROR);
         }

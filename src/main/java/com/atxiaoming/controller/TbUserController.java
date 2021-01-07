@@ -1,10 +1,11 @@
 package com.atxiaoming.controller;
 
 
-import com.atxiaoming.entity.TbRole;
 import com.atxiaoming.entity.TbUser;
 import com.atxiaoming.service.impl.TbUserServiceImpl;
 import com.atxiaoming.vo.RespBean;
+import com.atxiaoming.vo.UserIdVo;
+import com.atxiaoming.vo.UserInfoVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -33,5 +34,11 @@ public class TbUserController {
     @RequestMapping(value="/add",method= RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
     public RespBean addUser(@RequestBody TbUser user){
         return userServiceI.addUser(user);
+    }
+
+    @ApiOperation(value = "获取用户信息" ,  notes="用ID获取用户信息")
+    @RequestMapping(value="/getInfo",method= RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
+    public RespBean getUserInfo(@RequestBody UserIdVo userIdVo){
+        return userServiceI.getUser(userIdVo);
     }
 }
