@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * <p>
@@ -73,5 +74,9 @@ public class TbUser implements Serializable {
      */
     private String deleteAt;
     private Integer delFlag; //删除标志
+
+    public void deletePassword(){
+        this.password = "";
+    }
 
 }

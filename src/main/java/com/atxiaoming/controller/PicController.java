@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.atxiaoming.service.impl.TbUserServiceImpl.getRespBean;
+
 @Api(description = "图片上传接口")
 @RestController
 @RequestMapping("/pic")
@@ -31,11 +33,8 @@ public class PicController {
     public RespBean upload(@RequestParam("filename") MultipartFile filename) throws IOException {
 
         try {
-            String oldName = filename.getOriginalFilename();
-            InputStream inputStream = filename.getInputStream();
-            String newFileName = UUID.randomUUID().toString().replace("-", "").substring(4, 16)+"_"+oldName;
-            String uplosdFilePath = ossTemplate.upload(inputStream, newFileName);
-            return RespBean.success(uplosdFilePath);
+            String uploadFilePath = getRespBean(filename, ossTemplate);
+            return RespBean.success(uploadFilePath);
         } catch (Exception e) {
 
 //            e.printStackTrace();
