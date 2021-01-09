@@ -30,11 +30,13 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
     private TbMenuMapper tbMenuMapper;
 
     public RespBean getList(MenuRequireVo menuVo) {
+        System.out.println(menuVo);
         try{
             QueryWrapper wrapper = new QueryWrapper();
-            String menuName = menuVo.getMenuName();
-            if(menuName == null || menuName == ""){
-                wrapper.like("menu_name",menuName);
+            if(menuVo.getMenuName()==null){
+                System.out.println("空");
+            }else{
+                wrapper.like("menu_name",menuVo.getMenuName());
             }
 //            Integer page = menuVo.getPage();
 //            Integer size = menuVo.getSize();
@@ -47,10 +49,47 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
         }
     }
 
+    public RespBean getMenuPage(MenuPageVo menuPageVo) {
+        try{
+            QueryWrapper wrapper = new QueryWrapper();
+            if(menuPageVo.getMenuName()==null){
+            }else{
+                wrapper.like("menu_name",menuPageVo.getMenuName());
+            }
+            Integer page = menuPageVo.getCurrent();
+            Integer size = menuPageVo.getSize();
+            Page<TbMenu> menuPage = new Page<>(page, size);
+            Page<TbMenu> menuIPage = tbMenuMapper.selectPage(menuPage, wrapper);
+            return RespBean.success(menuIPage);
+        }catch (Exception e){
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
     public RespBean add(TbMenu menu) {
         try{
-            Integer row = tbMenuMapper.insert(menu);
+            tbMenuMapper.insert(menu);
             return RespBean.success();
+        }catch (Exception e){
+            System.out.println(e);
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
+    public RespBean edit(TbMenu menu) {
+        try{
+            tbMenuMapper.updateById(menu);
+            return RespBean.success();
+        }catch (Exception e){
+            System.out.println(e);
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
+    public RespBean getOne(int id) {
+        try{
+            TbMenu menu = tbMenuMapper.selectById(id);
+            return RespBean.success(menu);
         }catch (Exception e){
             System.out.println(e);
             return RespBean.error(RespBeanEnum.ERROR,e);

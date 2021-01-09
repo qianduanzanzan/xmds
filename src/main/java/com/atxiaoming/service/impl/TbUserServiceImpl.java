@@ -17,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -91,9 +89,23 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     public RespBean addUser(TbUser user){
         if(StringUtils.isEmpty(user.getUserName())){
             return RespBean.error(RespBeanEnum.NAME_NOT_EMPTY);
+        }else{
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("user_name",user.getUserName());
+            TbUser user1 = userMapper.selectOne(wrapper);
+            if(StringUtils.isEmpty(user1)){}else{
+                return RespBean.error(RespBeanEnum.NAME_REPEAT);
+            }
         }
         if(StringUtils.isEmpty(user.getAccount())){
             return RespBean.error(RespBeanEnum.ACC_NOT_EMPTY);
+        }else{
+            QueryWrapper wrapper1 = new QueryWrapper();
+            wrapper1.eq("account",user.getAccount());
+            TbUser user1 = userMapper.selectOne(wrapper1);
+            if(StringUtils.isEmpty(user1)){}else{
+                return RespBean.error(RespBeanEnum.ACCOUNT_REPEAT);
+            }
         }
         if(StringUtils.isEmpty(user.getPassword())){
             return RespBean.error(RespBeanEnum.PWD_NOT_EMPTY);
@@ -113,6 +125,9 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
         }
         try {
             Object loginUser = redisTemplate.opsForValue().get(token.getToken());
+            Field[] field = loginUser.getClass().getDeclaredFields();
+            System.out.println(field);
+//            Map<String, Object> returnMap = BeanUtils.describe(obj);
             if(StringUtils.isEmpty(loginUser)){
                 return RespBean.error(RespBeanEnum.NOT_LOGIN);
             }else{
@@ -127,11 +142,15 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     }
 
     public RespBean getUser(UserIdVo userId) {
+        System.out.println(userId.getId());
+        TbUser user1 = userMapper.selectById(userId.getId());
+        System.out.println(user1);
         try{
             TbUser user = userMapper.selectById(userId.getId());
             UserInfoVo userInfo = userInfo(user);
             return RespBean.success(userInfo);
         }catch (Exception e){
+            System.out.println(e);
             return RespBean.error(RespBeanEnum.ERROR);
         }
     }
@@ -160,10 +179,13 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
             newUser.setAccount(user.getAccount());
             newUser.setRoleId(user.getRoleId());
             userMapper.updateById(newUser);
-            TbUser Tbuser = userMapper.selectById(user.getId());
-            UserInfoVo userInfo = userInfo(Tbuser);
-            userInfo.setToken(token);
-            redisTemplate.opsForValue().set(token, userInfo,60 * 60 * 6, TimeUnit.SECONDS);
+            Long id = tokenUtil.getIdFromToken(token);
+            if(id == user.getId()){
+                TbUser Tbuser = userMapper.selectById(user.getId());
+                UserInfoVo userInfo = userInfo(Tbuser);
+                userInfo.setToken(token);
+                redisTemplate.opsForValue().set(token, userInfo,60 * 60 * 6, TimeUnit.SECONDS);
+            }
             return RespBean.success();
         }catch (Exception e){
             return RespBean.error(RespBeanEnum.ERROR);
@@ -185,12 +207,12 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
             UserInfoVo userInfoVo = new UserInfoVo();
             QueryWrapper wrapper = new QueryWrapper();
             wrapper.like("user_name",StringUtils.isEmpty(userPageNationVo.getUserName()) ? "":userPageNationVo.getUserName());
-            ArrayList<UserInfoVo> userInfoVoArrayList = new ArrayList();
             Page<TbUser> userIPage = new Page<>(page, size);
             Page<TbUser> userPage = userMapper.selectPage(userIPage, wrapper);
             for (TbUser item : userPage.getRecords()){
                 item.deletePassword();
             }
+//            System.out.println(userPage.getRecords());
             return RespBean.success(userPage);
         }catch (Exception e){
             System.out.println(e);

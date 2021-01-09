@@ -41,15 +41,10 @@ public class TbMenu implements Serializable {
     private Integer status;
 
     /**
-     * 父菜单ID
-     */
-    private Long pId;
-
-    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT) //添加自动填充，在插入时使用
-    private String createdAt;
+    private String createAt;
 
     /**
      * 更新时间

@@ -1,5 +1,6 @@
 package com.atxiaoming.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -29,7 +30,7 @@ public class TbUser implements Serializable {
     /**
      * 用户ID
      */
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

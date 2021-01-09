@@ -20,6 +20,8 @@ public enum RespBeanEnum {
     ACC_NOT_EMPTY(50005,"账号不能为空"),
     PWD_NOT_EMPTY(50006,"密码不能为空"),
     NOT_LOGIN(50007,"未检测到登录信息"),
+    ACCOUNT_REPEAT(50008,"账户重复"),
+    NAME_REPEAT(50009,"用户名重复"),
     ;
 
     private final Integer code;
