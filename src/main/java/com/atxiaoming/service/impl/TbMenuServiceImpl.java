@@ -30,12 +30,9 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
     private TbMenuMapper tbMenuMapper;
 
     public RespBean getList(MenuRequireVo menuVo) {
-        System.out.println(menuVo);
         try{
             QueryWrapper wrapper = new QueryWrapper();
-            if(menuVo.getMenuName()==null){
-                System.out.println("空");
-            }else{
+            if(menuVo.getMenuName()==null){ }else{
                 wrapper.like("menu_name",menuVo.getMenuName());
             }
 //            Integer page = menuVo.getPage();
@@ -91,7 +88,6 @@ public class TbMenuServiceImpl extends ServiceImpl<TbMenuMapper, TbMenu> impleme
             TbMenu menu = tbMenuMapper.selectById(id);
             return RespBean.success(menu);
         }catch (Exception e){
-            System.out.println(e);
             return RespBean.error(RespBeanEnum.ERROR,e);
         }
     }

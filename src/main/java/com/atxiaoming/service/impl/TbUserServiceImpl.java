@@ -120,14 +120,11 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     }
 
     public RespBean checkLogin(TokenVo token){
-        if(StringUtils.isEmpty(token.getToken())){
-            return RespBean.error(RespBeanEnum.NOT_LOGIN);
-        }
         try {
+            if(StringUtils.isEmpty(token.getToken())){
+                return RespBean.error(RespBeanEnum.NOT_LOGIN);
+            }
             Object loginUser = redisTemplate.opsForValue().get(token.getToken());
-            Field[] field = loginUser.getClass().getDeclaredFields();
-            System.out.println(field);
-//            Map<String, Object> returnMap = BeanUtils.describe(obj);
             if(StringUtils.isEmpty(loginUser)){
                 return RespBean.error(RespBeanEnum.NOT_LOGIN);
             }else{

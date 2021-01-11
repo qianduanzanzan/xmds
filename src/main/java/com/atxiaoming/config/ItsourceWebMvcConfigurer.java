@@ -30,7 +30,7 @@ public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(authHandlerInterceptor)
                 .addPathPatterns("/role/**")
                 .addPathPatterns("/user/**")
-//                .addPathPatterns("/menu/**")
+                .addPathPatterns("/menu/**")
                 .addPathPatterns("/pic/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/checkLogin")
