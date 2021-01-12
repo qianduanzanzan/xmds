@@ -23,7 +23,6 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
             //获取请求头信息
             String token = request.getHeader("token");
-            PrintWriter writer = null;
             //如果U-TOKEN为空则证明没有登录
             if (StringUtils.isEmpty(token)) {
                 writeJosn(response, "用户未登录",52000);
