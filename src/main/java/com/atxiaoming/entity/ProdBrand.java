@@ -1,6 +1,8 @@
 package com.atxiaoming.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -12,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 小明
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,12 +31,12 @@ public class ProdBrand implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createAt;
+    private Timestamp createAt;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateAt;
+    private Timestamp updateAt;
 
     /**
      * 停用标志（0启用1停用）

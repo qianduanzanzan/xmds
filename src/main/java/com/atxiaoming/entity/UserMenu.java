@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 小明
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,22 +23,12 @@ public class UserMenu implements Serializable {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 菜单ID
      */
-    private Long menuId;
-
-    /**
-     * 创建时间
-     */
-    private String createAt;
-
-    /**
-     * 更新时间
-     */
-    private String updateAt;
+    private Integer menuId;
 
 
 }

@@ -8,18 +8,15 @@
         <result column="menu_name" property="menuName" />
         <result column="route_name" property="routeName" />
         <result column="file_path" property="filePath" />
-        <result column="status" property="status" />
         <result column="create_at" property="createAt" />
         <result column="update_at" property="updateAt" />
-        <result column="del_flag" property="delFlag" />
-        <result column="delete_at" property="deleteAt" />
-        <result column="delete_from" property="deleteFrom" />
+        <result column="stop_flag" property="stopFlag" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        menu_name, route_name, file_path, status, create_at, update_at, del_flag, delete_at, delete_from
+        menu_name, route_name, file_path, create_at, update_at, stop_flag
     </sql>
 
 </mapper>

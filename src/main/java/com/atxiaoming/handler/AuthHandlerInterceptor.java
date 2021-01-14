@@ -1,5 +1,8 @@
 package com.atxiaoming.handler;
 
+import com.atxiaoming.entity.User;
+import com.atxiaoming.mapper.UserMapper;
+import com.atxiaoming.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -10,19 +13,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 
-@Component
+//@Component
 public class AuthHandlerInterceptor implements HandlerInterceptor {
 
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private TokenUtil tokenUtil;
+
+    @Autowired
+    private UserMapper userMapper;
+
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
             //获取请求头信息
             String token = request.getHeader("token");
+
+            Integer userId = tokenUtil.getIdFromToken(token);
+
+//            LocalDateTime updateAt = tokenUtil.getudateAtFromToken(token);
+            if(StringUtils.isEmpty(user) || updateAt != user.getUpdateAt()){
+                writeJosn(response, "用户信息异常，请重新登录",52002);
+                redisTemplate.delete(token);
+                //拦截
+                return false;
+            }
             //如果U-TOKEN为空则证明没有登录
             if (StringUtils.isEmpty(token)) {
                 writeJosn(response, "用户未登录",52000);

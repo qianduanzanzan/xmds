@@ -1,5 +1,6 @@
 package com.atxiaoming.controller;
 
+
 import com.atxiaoming.service.impl.UserServiceImpl;
 import com.atxiaoming.vo.LoginVo;
 import com.atxiaoming.vo.RespBean;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("")
 @Slf4j
 public class LoginController {
+
     @Autowired
     private UserServiceImpl userServiceI;
 
@@ -26,5 +28,6 @@ public class LoginController {
     public RespBean doLogin(@RequestBody LoginVo loginVo){
         return userServiceI.doLogin(loginVo);
     }
+
 
 }

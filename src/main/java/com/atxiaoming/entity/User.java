@@ -1,6 +1,9 @@
 package com.atxiaoming.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 小明
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -19,6 +22,8 @@ import lombok.EqualsAndHashCode;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private Integer id;
 
     /**
      * 用户名称
@@ -41,29 +46,19 @@ public class User implements Serializable {
     private String avatar;
 
     /**
-     * 角色ID
+     * 用户创建时间
      */
-    private Integer roleId;
+    private Timestamp createAt;
 
     /**
-     * 创建时间
+     * 用户更新时间
      */
-    private String createAt;
+    private Timestamp updateAt;
 
     /**
-     * 更新时间
+     * 停用状态(1停用，0启用)
      */
-    private String updateAt;
-
-    /**
-     * 删除时间
-     */
-    private String deleteAt;
-
-    /**
-     * 删除标记
-     */
-    private Boolean delFlag;
+    private Boolean stopFlag;
 
 
 }

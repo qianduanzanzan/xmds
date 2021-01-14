@@ -1,6 +1,10 @@
 package com.atxiaoming.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 小明
- * @since 2021-01-12
+ * @since 2021-01-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -36,34 +40,19 @@ public class Menu implements Serializable {
     private String filePath;
 
     /**
-     * 菜单类型(0菜单1按钮)
-     */
-    private Boolean status;
-
-    /**
      * 创建时间
      */
-    private String createAt;
+    private Timestamp createAt;
 
     /**
      * 更新时间
      */
-    private String updateAt;
+    private Timestamp updateAt;
 
     /**
-     * 删除标志
+     * 停用标志(0启用，1停用)
      */
-    private Boolean delFlag;
-
-    /**
-     * 删除时间
-     */
-    private String deleteAt;
-
-    /**
-     * 删除人
-     */
-    private Long deleteFrom;
+    private Boolean stopFlag;
 
 
 }

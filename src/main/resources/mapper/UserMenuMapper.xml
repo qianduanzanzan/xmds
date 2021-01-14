@@ -6,13 +6,11 @@
     <resultMap id="BaseResultMap" type="com.atxiaoming.entity.UserMenu">
         <id column="user_id" property="userId" />
         <result column="menu_id" property="menuId" />
-        <result column="create_at" property="createAt" />
-        <result column="update_at" property="updateAt" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_id, menu_id, create_at, update_at
+        user_id, menu_id
     </sql>
 
 </mapper>
