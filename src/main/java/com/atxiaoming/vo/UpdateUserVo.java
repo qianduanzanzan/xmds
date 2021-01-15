@@ -1,11 +1,11 @@
 package com.atxiaoming.vo;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class UpdateUserVo {
-    private Long id;
-    private String account;
+    private Integer id;
     private String userName;
-    private Integer roleId;
+    private MultipartFile avatar;
 }

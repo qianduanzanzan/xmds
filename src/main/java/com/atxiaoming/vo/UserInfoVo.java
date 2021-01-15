@@ -1,19 +1,17 @@
 package com.atxiaoming.vo;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 public class UserInfoVo implements Serializable {
-    private Long id;
+    private Integer id;
     private String account;
     private String userName;
     private String avatar;
-    private Integer roleId;
-    private String createAt;
-    private String updateAt;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
     private String token;
 }

@@ -8,9 +8,7 @@
         <result column="prod_name" property="prodName" />
         <result column="category_id" property="categoryId" />
         <result column="category_name" property="categoryName" />
-        <result column="brand_id" property="brandId" />
-        <result column="brand_name" property="brandName" />
-        <result column="imgs_id" property="imgsId" />
+        <result column="imgs" property="imgs" />
         <result column="description" property="description" />
         <result column="create_at" property="createAt" />
         <result column="update_at" property="updateAt" />
@@ -20,7 +18,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        prod_name, category_id, category_name, brand_id, brand_name, imgs_id, description, create_at, update_at, stop_flag
+        prod_name, category_id, category_name, imgs, description, create_at, update_at, stop_flag
     </sql>
 
 </mapper>

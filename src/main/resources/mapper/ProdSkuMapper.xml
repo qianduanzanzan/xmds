@@ -7,14 +7,14 @@
         <result column="id" property="id" />
         <result column="attr1_id" property="attr1Id" />
         <result column="attr2_id" property="attr2Id" />
-        <result column="prod_price" property="prodPrice" />
-        <result column="prod_sku" property="prodSku" />
+        <result column="sku" property="sku" />
+        <result column="price" property="price" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id,
-        attr1_id, attr2_id, prod_price, prod_sku
+        attr1_id, attr2_id, sku, price
     </sql>
 
 </mapper>

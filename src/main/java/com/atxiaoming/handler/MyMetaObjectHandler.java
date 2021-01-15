@@ -6,6 +6,8 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 //自动填充的插件
@@ -14,14 +16,16 @@ import java.util.Date;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-//        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.setFieldValByName("createAt",System.currentTimeMillis(),metaObject);
-        this.setFieldValByName("updateAt",System.currentTimeMillis(),metaObject);
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.setFieldValByName("createAt", LocalDateTime.parse(dateFormat.format(new Date()),df),metaObject);
+        this.setFieldValByName("updateAt",LocalDateTime.parse(dateFormat.format(new Date()),df),metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-//        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.setFieldValByName("updateAt",System.currentTimeMillis(),metaObject);
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.setFieldValByName("updateAt",LocalDateTime.parse(dateFormat.format(new Date()),df),metaObject);
     }
 }

@@ -1,6 +1,5 @@
 package com.atxiaoming.vo;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -22,7 +21,7 @@ public enum RespBeanEnum {
     NOT_LOGIN(52001,"登陆已过期"),
     ACCOUNT_REPEAT(50008,"账户重复"),
     NAME_REPEAT(50009,"用户名重复"),
-    ;
+            ;
 
     private final Integer code;
     private final String msg;

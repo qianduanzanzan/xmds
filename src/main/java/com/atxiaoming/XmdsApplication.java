@@ -7,11 +7,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = "com.atxiaoming")
 @MapperScan("com.atxiaoming.mapper")
-@EnableTransactionManagement
-public class CommunityApplication {
+@EnableTransactionManagement(proxyTargetClass=true)
+public class XmdsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CommunityApplication.class, args);
+		SpringApplication.run(XmdsApplication.class, args);
 	}
 
 }

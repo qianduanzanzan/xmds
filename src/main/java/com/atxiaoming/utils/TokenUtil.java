@@ -7,7 +7,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +29,8 @@ public class TokenUtil {
             return JWT.create()
                     .withHeader(header)
                     .withClaim("userId", user.getId())
-//                    .withClaim("updateAt", user.getUpdateAt())
+                    .withClaim("updateAt", user.getUpdateAt().toString())
+                    .withClaim("a",new Date())
                     .sign(algorithm);
         }catch (Exception e){
             e.printStackTrace();
@@ -47,15 +50,17 @@ public class TokenUtil {
         }
     }
 
-//    public Timestamp getudateAtFromToken(String token){
-//        try {
-//            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
-//            JWTVerifier verifier = JWT.require(algorithm).build();
-//            DecodedJWT jwt = verifier.verify(token);
-//            Timestamp updateAt = jwt.getClaim("updateAt").as(Timestamp);
-//            return updateAt;
-//        } catch (Exception e){
-//            return null;
-//        }
-//    }
+    public LocalDateTime getudateAtFromToken(String token){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT jwt = verifier.verify(token);
+            String updateAt_str = jwt.getClaim("updateAt").asString();
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime updateAt = LocalDateTime.parse(updateAt_str,df);
+            return updateAt;
+        } catch (Exception e){
+            return null;
+        }
+    }
 }

@@ -3,8 +3,8 @@ package com.atxiaoming.vo;
 import lombok.Data;
 
 @Data
-public class UserPageNationVo {
-    private String userName;
+public class CategoryPagenationVo {
+    private String categoryName;
     private Integer stopFlag;
     private Integer current;
     private Integer size;

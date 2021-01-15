@@ -1,10 +1,11 @@
 package com.atxiaoming.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,12 +24,8 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
     private Integer id;
-
-    /**
-     * 用户名称
-     */
-    private String userName;
 
     /**
      * 用户账号
@@ -36,29 +33,38 @@ public class User implements Serializable {
     private String account;
 
     /**
-     * 用户密码
+     * 用户加密过后的密码
      */
     private String password;
 
     /**
-     * 用户头像
+     * 用户名称
+     */
+    private String userName;
+
+    /**
+     * 用户头像的地址
      */
     private String avatar;
 
     /**
      * 用户创建时间
      */
-    private Timestamp createAt;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createAt;
 
     /**
-     * 用户更新时间
+     * 用户信息更新时间
      */
-    private Timestamp updateAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateAt;
 
     /**
-     * 停用状态(1停用，0启用)
+     * 用户启用停用标志（0启用，1停用）
      */
-    private Boolean stopFlag;
+    private Integer stopFlag;
 
-
+    public void deletePassword(){
+        this.password = "";
+    }
 }

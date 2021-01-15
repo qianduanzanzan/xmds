@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 配置类
  */
-@Configuration  //告诉springboot 这是一个配置类 相当于applicationMvc.xml
+//@Configuration  //告诉springboot 这是一个配置类 相当于applicationMvc.xml
 public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
 
     @Autowired
@@ -33,8 +33,8 @@ public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/menu/**")
                 .addPathPatterns("/pic/**")
                 .excludePathPatterns("/login")
-                .excludePathPatterns("/checkLogin")
                 .excludePathPatterns("/doc.html/**")
-                .excludePathPatterns("/swagger-ui.html/**");
+                .excludePathPatterns("/swagger-ui.html/**")
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");;
     }
 }

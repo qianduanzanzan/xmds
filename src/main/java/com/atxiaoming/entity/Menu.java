@@ -1,10 +1,8 @@
 package com.atxiaoming.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 小明
- * @since 2021-01-13
+ * @since 2021-01-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,6 +22,8 @@ public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
+    private Integer id;
     /**
      * 菜单中文名
      */
@@ -42,17 +42,19 @@ public class Menu implements Serializable {
     /**
      * 创建时间
      */
-    private Timestamp createAt;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createAt;
 
     /**
      * 更新时间
      */
-    private Timestamp updateAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateAt;
 
     /**
-     * 停用标志(0启用，1停用)
+     * 删除标志
      */
-    private Boolean stopFlag;
+    private Integer stopFlag;
 
 
 }

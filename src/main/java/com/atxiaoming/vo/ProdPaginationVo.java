@@ -3,9 +3,10 @@ package com.atxiaoming.vo;
 import lombok.Data;
 
 @Data
-public class UserPageNationVo {
-    private String userName;
+public class ProdPaginationVo {
+    private String prodName;
     private Integer stopFlag;
+    private Integer categoryId;
     private Integer current;
     private Integer size;
 }

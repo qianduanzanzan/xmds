@@ -1,8 +1,7 @@
 package com.atxiaoming.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -14,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 小明
- * @since 2021-01-13
+ * @since 2021-01-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -22,7 +21,8 @@ import lombok.EqualsAndHashCode;
 public class ProdCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @TableId(type = IdType.AUTO)
+    private Integer id;
     /**
      * 产品分类名称
      */
@@ -31,17 +31,19 @@ public class ProdCategory implements Serializable {
     /**
      * 创建时间
      */
-    private Timestamp createAt;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createAt;
 
     /**
      * 更改时间
      */
-    private Timestamp updateAt;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateAt;
 
     /**
      * 停用标志（0启用1停用）
      */
-    private Boolean stopFlag;
+    private Integer stopFlag;
 
 
 }
