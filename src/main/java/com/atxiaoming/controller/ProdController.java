@@ -35,10 +35,9 @@ public class ProdController {
     @RequestMapping(value="/add",method= RequestMethod.POST)
     public RespBean addProd(@RequestParam("prodName") String prodName,
                             @RequestParam("categoryId") Integer categoryId,
-                            @RequestParam("categoryName") String categoryName,
-                            @RequestParam("imgs") MultipartFile[] imgs,
+                            @RequestParam("imgs") String[] imgs,
                             @RequestParam("description") String description){
-        return prodServiceImpl.addProd(prodName,categoryId,categoryName,imgs,description);
+        return prodServiceImpl.addProd(prodName,categoryId,imgs,description);
     }
 
     @ApiOperation(value = "修改产品" ,  notes="修改产品")

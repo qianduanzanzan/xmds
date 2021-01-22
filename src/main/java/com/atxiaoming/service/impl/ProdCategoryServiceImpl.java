@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -31,10 +33,12 @@ public class ProdCategoryServiceImpl extends ServiceImpl<ProdCategoryMapper, Pro
     @Autowired
     private ProdCategoryMapper prodCategoryMapper;
 
-    public RespBean add(String categoryName) {
+    public RespBean add(String categoryName,String img) {
         try{
             ProdCategory prodCategory = new ProdCategory();
             prodCategory.setCategoryName(categoryName);
+            prodCategory.setImg(img);
+            prodCategoryMapper.insert(prodCategory);
             return RespBean.success();
         }catch (Exception e){
             System.out.println(e);
@@ -62,11 +66,16 @@ public class ProdCategoryServiceImpl extends ServiceImpl<ProdCategoryMapper, Pro
         }
     }
 
-    public RespBean edit(Integer id,String categoryName) {
+    public RespBean edit(Integer id,String categoryName,String img) {
         try{
             ProdCategory newProdCategory = new ProdCategory();
             newProdCategory.setId(id);
-            newProdCategory.setCategoryName(categoryName);
+            if(!StringUtils.isEmpty(categoryName)){
+                newProdCategory.setCategoryName(categoryName);
+            }
+            if(!StringUtils.isEmpty(img)){
+                newProdCategory.setImg(img);
+            }
             prodCategoryMapper.updateById(newProdCategory);
             return RespBean.success();
         }catch (Exception e){
@@ -82,12 +91,25 @@ public class ProdCategoryServiceImpl extends ServiceImpl<ProdCategoryMapper, Pro
             if(!StringUtils.isEmpty(categoryPagenationVo.getStopFlag())){
                 wrapper.eq("stop_flag",categoryPagenationVo.getStopFlag());
             }
-            if(!categoryPagenationVo.getCategoryName().isEmpty()){
+            if(!StringUtils.isEmpty(categoryPagenationVo.getCategoryName())){
                 wrapper.like("category_name",categoryPagenationVo.getCategoryName());
             }
             Page<ProdCategory> categoryIPage = new Page<>(categoryPagenationVo.getCurrent(), categoryPagenationVo.getSize());
             IPage<ProdCategory> categoryPage = prodCategoryMapper.selectPage(categoryIPage, wrapper);
             return RespBean.success(categoryPage);
+        }catch (Exception e){
+            System.out.println(e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
+    public RespBean geAlltCategory() {
+        try{
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("stop_flag",0);
+            List<ProdCategory> prodCategories = prodCategoryMapper.selectList(wrapper);
+            return RespBean.success(prodCategories);
         }catch (Exception e){
             System.out.println(e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

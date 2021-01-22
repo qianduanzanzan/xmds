@@ -26,15 +26,40 @@ public class ProdSku implements Serializable {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 产品ID
+     */
+    private Integer prodId;
     /**
      * 产品属性1ID
      */
     private Integer attr1Id;
 
     /**
+     * 产品属性1名称
+     */
+    private String attr1Name;
+
+    /**
      * 产品属性2ID
      */
     private Integer attr2Id;
+
+    /**
+     * 产品属性2名称
+     */
+    private String attr2Name;
+
+    /**
+     * 产品属性3ID
+     */
+    private Integer attr3Id;
+
+    /**
+     * 产品属性3名称
+     */
+    private String attr3Name;
 
     /**
      * 产品库存

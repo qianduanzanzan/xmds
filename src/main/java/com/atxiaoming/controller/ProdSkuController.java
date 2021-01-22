@@ -31,8 +31,20 @@ public class ProdSkuController {
 
     @ApiOperation(value = "添加产品库存" ,  notes="添加产品库存")
     @RequestMapping(value="/add",method= RequestMethod.POST)
-    public RespBean getProdPage(@RequestBody List<ProdSku> prodSkus){
+    public RespBean addProdSku(@RequestBody List<ProdSku> prodSkus){
         return prodSkuServiceImpl.addProdSku(prodSkus);
+    }
+
+    @ApiOperation(value = "获取产品库存" ,  notes="获取产品库存")
+    @RequestMapping(value="/getSku",method= RequestMethod.POST)
+    public RespBean getSku(@RequestParam("prodId") Integer prodId){
+        return prodSkuServiceImpl.getProdSku(prodId);
+    }
+
+    @ApiOperation(value = "修改产品库存" ,  notes="修改产品库存")
+    @RequestMapping(value="/edit",method= RequestMethod.POST)
+    public RespBean editProdSku(@RequestBody List<ProdSku> prodSkus){
+        return prodSkuServiceImpl.editProdSku(prodSkus);
     }
 
 }

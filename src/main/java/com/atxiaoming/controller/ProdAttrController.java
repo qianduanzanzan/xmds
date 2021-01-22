@@ -11,11 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,5 +36,11 @@ public class ProdAttrController {
     @RequestMapping(value="/add",method= RequestMethod.POST)
     public RespBean editMenu(@RequestBody List<ProdAttr> prodAttrs){
         return prodAttrServiceImpl.addProdAttr(prodAttrs);
+    }
+
+    @ApiOperation(value = "根据产品获取属性" ,  notes="根据产品获取属性")
+    @RequestMapping(value="/getAttrByProdId",method= RequestMethod.POST)
+    public RespBean getAttrByProdId(@RequestParam("prodId") Integer prodId ){
+        return prodAttrServiceImpl.getAttrByProdId(prodId);
     }
 }

@@ -4,6 +4,7 @@ import com.atxiaoming.entity.Menu;
 import com.atxiaoming.entity.User;
 import com.atxiaoming.entity.UserMenu;
 import com.atxiaoming.mapper.MenuMapper;
+import com.atxiaoming.mapper.UserMapper;
 import com.atxiaoming.mapper.UserMenuMapper;
 import com.atxiaoming.service.IMenuService;
 import com.atxiaoming.vo.EditMenuVo;
@@ -23,9 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>
@@ -43,6 +42,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Autowired
     private UserMenuMapper userMenuMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Transactional
     public RespBean addMenu(String meunName,String routeName,String filePath) {
@@ -65,13 +67,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         try{
             Menu menu = new Menu();
             menu.setId(editMenuVo.getId());
-            if(!editMenuVo.getMenuName().isEmpty()){
+            if(!StringUtils.isEmpty(editMenuVo.getMenuName())){
                 menu.setMenuName(editMenuVo.getMenuName());
             }
-            if(!editMenuVo.getRouteName().isEmpty()){
+            if(!!StringUtils.isEmpty(editMenuVo.getRouteName())){
                 menu.setRouteName(editMenuVo.getRouteName());
             }
-            if(!editMenuVo.getFileName().isEmpty()){
+            if(!!StringUtils.isEmpty(editMenuVo.getFileName())){
                 menu.setFilePath(editMenuVo.getFileName());
             }
             menuMapper.updateById(menu);
@@ -94,7 +96,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
             }else{
                 newMenu.setStopFlag(0);
             }
-            menuMapper.updateById(menu);
+            menuMapper.updateById(newMenu);
             return RespBean.success();
         }catch (Exception e){
             System.out.println(e);
@@ -109,7 +111,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
             if(!StringUtils.isEmpty(menuPagenitionVo.getStopFlag())){
                 wrapper.eq("stop_flag",menuPagenitionVo.getStopFlag());
             }
-            if(!menuPagenitionVo.getMenuName().isEmpty()){
+            if(!StringUtils.isEmpty(menuPagenitionVo.getMenuName())){
                 wrapper.like("menu_name",menuPagenitionVo.getMenuName());
             }
             Page<Menu> menuIPage = new Page<>(menuPagenitionVo.getCurrent(), menuPagenitionVo.getSize());
@@ -124,17 +126,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     public RespBean getMenuListByUserId(Integer id) {
         try{
-            QueryWrapper wrapper = new QueryWrapper();
-            wrapper.eq("user_id",id);
-            List<UserMenu> userMenuList = userMenuMapper.selectList(wrapper);
+            QueryWrapper menuWrapper = new QueryWrapper();
+            menuWrapper.eq("user_id",id);
+            List<UserMenu> userMenuList = userMenuMapper.selectList(menuWrapper);
             List<Menu> menuList = new ArrayList<>();
-            QueryWrapper stopWrapper = new QueryWrapper();
-            stopWrapper.eq("stop_flag",0);
             for (UserMenu userMenu : userMenuList){
+                QueryWrapper stopWrapper = new QueryWrapper();
+                stopWrapper.eq("stop_flag",0);
                 stopWrapper.eq("id",userMenu.getMenuId());
                 Menu menu = menuMapper.selectOne(stopWrapper);
-                menuList.add(menu);
+                if(!StringUtils.isEmpty(menu)){
+                    menuList.add(menu);
+                }
             }
+//            User user = userMapper.selectById(id);
+//            Map<String ,Object> res = new HashMap<String, Object>();
+//            res.put("user",user);
+//            res.put("menuList",menuList);
             return RespBean.success(menuList);
         }catch (Exception e){
             System.out.println(e);
@@ -143,4 +151,26 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         }
     }
 
+    public RespBean getDetail(Integer id) {
+        try{
+            Menu menu = menuMapper.selectById(id);
+            return RespBean.success(menu);
+        }catch (Exception e){
+            System.out.println(e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
+    public RespBean getMenus() {
+        try{
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("stop_flag",0);
+            List<Menu> menus = menuMapper.selectList(wrapper);
+            return RespBean.success(menus);
+        }catch (Exception e){
+            System.out.println(e);
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
 }

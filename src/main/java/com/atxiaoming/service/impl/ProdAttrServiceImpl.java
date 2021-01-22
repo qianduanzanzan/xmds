@@ -1,8 +1,10 @@
 package com.atxiaoming.service.impl;
 
 import com.atxiaoming.entity.ProdAttr;
+import com.atxiaoming.entity.ProdSku;
 import com.atxiaoming.mapper.ProdAttrMapper;
 import com.atxiaoming.service.IProdAttrService;
+import com.atxiaoming.vo.ProdAttrRequireVo;
 import com.atxiaoming.vo.RespBean;
 import com.atxiaoming.vo.RespBeanEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +37,28 @@ public class ProdAttrServiceImpl extends ServiceImpl<ProdAttrMapper, ProdAttr> i
                 prodAttrMapper.insert(prodAttr);
             }
             return RespBean.success();
+//            for (ProdAttrRequireVo prodAttrVo : prodAttrs){
+//                ProdAttr prodAttr = new ProdAttr();
+//                prodAttr.setProdId(prodAttrVo.getProdId());
+//                prodAttr.setAttrKey(prodAttrVo.getAttrKey());
+//                for(String attrVal:prodAttrVo.getAttrVals()){
+//                    prodAttr.setAttrVal(attrVal);
+//                    prodAttrMapper.insert(prodAttr);
+//                }
+//            }
+//            return RespBean.success();
+        }catch (Exception e){
+            System.out.println(e);
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
+    public RespBean getAttrByProdId(Integer prodId) {
+        try{
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("prod_id",prodId);
+            List<ProdAttr> prodAttrs = prodAttrMapper.selectList(wrapper);
+            return RespBean.success(prodAttrs);
         }catch (Exception e){
             System.out.println(e);
             return RespBean.error(RespBeanEnum.ERROR,e);

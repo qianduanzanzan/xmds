@@ -60,4 +60,16 @@ public class MenuController {
     public RespBean getMenuListByUserId(@RequestParam("id") Integer id){
         return menuServiceImpl.getMenuListByUserId(id);
     }
+
+    @ApiOperation(value = "获取全部菜单" ,  notes="获取全部菜单")
+    @RequestMapping(value="/getMenus",method= RequestMethod.POST)
+    public RespBean getMenus(){
+        return menuServiceImpl.getMenus();
+    }
+
+    @ApiOperation(value = "获取菜单信息" ,  notes="获取菜单信息")
+    @RequestMapping(value="/getDetail",method= RequestMethod.POST)
+    public RespBean getDetail(@RequestParam("id") Integer id){
+        return menuServiceImpl.getDetail(id);
+    }
 }

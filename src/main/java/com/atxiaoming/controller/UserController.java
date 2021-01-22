@@ -33,12 +33,12 @@ public class UserController {
 
     @ApiOperation(value = "添加用户" ,  notes="添加用户")
     @RequestMapping(value="/addUser",method= RequestMethod.POST)
-    public RespBean doLogin(@RequestParam("username") String username,
+    public RespBean doLogin(@RequestParam("userName") String userName,
                             @RequestParam("account") String account,
                             @RequestParam("password") String password,
-                            @RequestPart("avatar") MultipartFile avatar
+                            @RequestParam(value="avatar",required=false) String avatar
     ){
-        return userServiceImpl.addUser(username,account,password,avatar);
+        return userServiceImpl.addUser(userName,account,password,avatar);
     }
 
     @ApiOperation(value = "修改用户信息" ,  notes="修改用户信息")
@@ -69,5 +69,11 @@ public class UserController {
     @RequestMapping(value="/getUserInfo",method= RequestMethod.POST)
     public RespBean getUserInfo(@RequestParam("id") Integer id){
         return userServiceImpl.getUserInfo(id);
+    }
+
+    @ApiOperation(value = "用token获取用户信息" ,  notes="用token获取用户信息")
+    @RequestMapping(value="/getUserInfoByToken",method= RequestMethod.POST)
+    public RespBean getUserInfoByToken(@RequestHeader("token") String token){
+        return userServiceImpl.getUserInfoByToken(token);
     }
 }

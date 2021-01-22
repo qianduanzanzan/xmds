@@ -44,6 +44,13 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             Integer userId = tokenUtil.getIdFromToken(token);
 
             User user = userMapper.selectById(userId);
+            String updateAt = tokenUtil.getUpdateAtFromToken(token);
+            if(StringUtils.isEmpty(user) || !updateAt.equals(user.getUpdateAt().toString())){
+                redisTemplate.delete(token);
+                writeJosn(response, "用户信息已更改，请重新登录",52002);
+                //拦截
+                return false;
+            }
 
             if(user.getStopFlag().equals(1)){
                 redisTemplate.delete(token);
@@ -52,13 +59,6 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
                 return false;
             }
 
-            LocalDateTime updateAt = tokenUtil.getudateAtFromToken(token);
-            if(StringUtils.isEmpty(user) || updateAt != user.getUpdateAt()){
-                redisTemplate.delete(token);
-                writeJosn(response, "用户信息异常，请重新登录",52002);
-                //拦截
-                return false;
-            }
             //token（id）不为0，如果redis的velue为空，则账号密码过期
             Object loginUser = redisTemplate.opsForValue().get(token);
             if (StringUtils.isEmpty(loginUser)) {

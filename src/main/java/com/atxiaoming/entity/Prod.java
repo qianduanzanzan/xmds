@@ -35,11 +35,6 @@ public class Prod implements Serializable {
     private Integer categoryId;
 
     /**
-     * 产品分类名称
-     */
-    private String categoryName;
-
-    /**
      * 产品图片
      */
     private String imgs;

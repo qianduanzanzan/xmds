@@ -21,6 +21,7 @@ public enum RespBeanEnum {
     NOT_LOGIN(52001,"登陆已过期"),
     ACCOUNT_REPEAT(50008,"账户重复"),
     NAME_REPEAT(50009,"用户名重复"),
+    PROD_NOT_SKU(50010,"该产品没有库存信息，不能启用"),
             ;
 
     private final Integer code;

@@ -9,6 +9,6 @@ public class ProdEditVo {
     private String prodName;
     private Integer categoryId;
     private String categoryName;
-    private MultipartFile[] imgs;
+    private String[] imgs;
     private String description;
 }

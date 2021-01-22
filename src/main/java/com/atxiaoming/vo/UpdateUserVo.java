@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class UpdateUserVo {
     private Integer id;
     private String userName;
-    private MultipartFile avatar;
+    private String avatar;
 }

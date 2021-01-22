@@ -46,8 +46,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private TokenUtil tokenUtil;
 
+//    @Transactional
+//    public RespBean addUser(String userName, String account, String password, MultipartFile avatar) {
+//        try{
+//            QueryWrapper nameWrapper = new QueryWrapper();
+//            nameWrapper.eq("user_name",userName);
+//            if(!StringUtils.isEmpty(userMapper.selectOne(nameWrapper))){
+//                return RespBean.error(RespBeanEnum.NAME_REPEAT);
+//            }
+//            QueryWrapper accWrapper = new QueryWrapper();
+//            accWrapper.eq("account",account);
+//            if(!StringUtils.isEmpty(userMapper.selectOne(accWrapper))){
+//                return RespBean.error(RespBeanEnum.ACCOUNT_REPEAT);
+//            }
+//            String oldName = avatar.getOriginalFilename();
+//            InputStream inputStream = avatar.getInputStream();
+//            String newFileName = UUID.randomUUID().toString().replace("-", "").substring(4, 16)+"_"+oldName;
+//            String uploadFilePath = ossTemplate.upload(inputStream, newFileName);
+//            User user = new User();
+//            String md5_password = DigestUtils.md5DigestAsHex(password.getBytes());
+//            user.setPassword(md5_password);
+//            user.setUserName(userName);
+//            user.setAccount(account);
+//            user.setAvatar(uploadFilePath);
+//            userMapper.insert(user);
+//            return RespBean.success();
+//        }catch (Exception e){
+//            System.out.println(e);
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//            return RespBean.error(RespBeanEnum.ERROR,e);
+//        }
+//    }
+
     @Transactional
-    public RespBean addUser(String userName, String account, String password, MultipartFile avatar) {
+    public RespBean addUser(String userName, String account, String password, String avatar) {
         try{
             QueryWrapper nameWrapper = new QueryWrapper();
             nameWrapper.eq("user_name",userName);
@@ -59,16 +91,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             if(!StringUtils.isEmpty(userMapper.selectOne(accWrapper))){
                 return RespBean.error(RespBeanEnum.ACCOUNT_REPEAT);
             }
-            String oldName = avatar.getOriginalFilename();
-            InputStream inputStream = avatar.getInputStream();
-            String newFileName = UUID.randomUUID().toString().replace("-", "").substring(4, 16)+"_"+oldName;
-            String uploadFilePath = ossTemplate.upload(inputStream, newFileName);
+//            String oldName = avatar.getOriginalFilename();
+//            InputStream inputStream = avatar.getInputStream();
+//            String newFileName = UUID.randomUUID().toString().replace("-", "").substring(4, 16)+"_"+oldName;
+//            String uploadFilePath = ossTemplate.upload(inputStream, newFileName);
             User user = new User();
             String md5_password = DigestUtils.md5DigestAsHex(password.getBytes());
             user.setPassword(md5_password);
             user.setUserName(userName);
             user.setAccount(account);
-            user.setAvatar(uploadFilePath);
+            user.setAvatar(avatar);
             userMapper.insert(user);
             return RespBean.success();
         }catch (Exception e){
@@ -83,20 +115,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         try{
             QueryWrapper nameWrapper = new QueryWrapper();
             nameWrapper.eq("user_name",updateUserVo.getUserName());
-            if(StringUtils.isEmpty(userMapper.selectOne(nameWrapper))){
+            if(!StringUtils.isEmpty(userMapper.selectOne(nameWrapper))){
                 return RespBean.error(RespBeanEnum.NAME_REPEAT);
             }
             User user = new User();
             if(!StringUtils.isEmpty(updateUserVo.getAvatar())){
-                User oldUser = userMapper.selectById(updateUserVo.getId());
-                String oldAvatar_name = oldUser.getAvatar().substring(47);
-                ossTemplate.delete(oldAvatar_name);
-                MultipartFile avatar = updateUserVo.getAvatar();
-                String oldName = avatar.getOriginalFilename();
-                InputStream inputStream = avatar.getInputStream();
-                String newFileName = UUID.randomUUID().toString().replace("-", "").substring(4, 16)+"_"+oldName;
-                String uploadFilePath = ossTemplate.upload(inputStream, newFileName);
-                user.setAvatar(uploadFilePath);
+                user.setAvatar(updateUserVo.getAvatar());
             }
             user.setId(updateUserVo.getId());
             user.setUserName(updateUserVo.getUserName());
@@ -156,7 +180,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             if(!StringUtils.isEmpty(userPageNationVo.getStopFlag())){
                 wrapper.eq("stop_flag",userPageNationVo.getStopFlag());
             }
-            if(!userPageNationVo.getUserName().isEmpty()){
+            System.out.println(userPageNationVo.getUserName());
+            if(!StringUtils.isEmpty(userPageNationVo.getUserName())){
                 wrapper.like("user_name",userPageNationVo.getUserName());
             }
             Page<User> userIPage = new Page<>(userPageNationVo.getCurrent(), userPageNationVo.getSize());
@@ -232,5 +257,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userInfo.setUpdateAt(user.getUpdateAt());
         userInfo.setAccount(user.getAccount());
         return userInfo;
+    }
+
+    public RespBean getUserInfoByToken(String token) {
+        try{
+            Integer id = tokenUtil.getIdFromToken(token);
+            User user = userMapper.selectById(id);
+            UserInfoVo userInfoVo = userInfo(user);
+            userInfoVo.setToken(token);
+            return RespBean.success(userInfoVo);
+        }catch (Exception e){
+            System.out.println(e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
     }
 }

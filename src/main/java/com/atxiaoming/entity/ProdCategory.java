@@ -28,6 +28,8 @@ public class ProdCategory implements Serializable {
      */
     private String categoryName;
 
+    private String img;
+
     /**
      * 创建时间
      */

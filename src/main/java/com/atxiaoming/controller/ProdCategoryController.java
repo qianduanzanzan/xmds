@@ -30,8 +30,8 @@ public class ProdCategoryController {
 
     @ApiOperation(value = "新增产品分类" ,  notes="新增产品分类")
     @RequestMapping(value="/add",method= RequestMethod.POST)
-    public RespBean add(@RequestParam("category") String categoryName){
-        return prodCategoryService.add(categoryName);
+    public RespBean add(@RequestParam("category") String categoryName,@RequestParam("img") String img){
+        return prodCategoryService.add(categoryName,img);
     }
 
     @ApiOperation(value = "修改分类状态" ,  notes="修改分类状态")
@@ -43,13 +43,20 @@ public class ProdCategoryController {
     @ApiOperation(value = "修改分类名称" ,  notes="修改分类名称")
     @RequestMapping(value="/edit",method= RequestMethod.POST)
     public RespBean edit(@RequestParam("id") Integer id,
-                         @RequestParam("categoryName") String categoryName){
-        return prodCategoryService.edit(id,categoryName);
+                         @RequestParam(value = "categoryName",required = false) String categoryName,
+                         @RequestParam(value = "img",required = false) String img){
+        return prodCategoryService.edit(id,categoryName,img);
     }
 
     @ApiOperation(value = "获取分类的分页信息" ,  notes="获取分类的分页信息")
     @RequestMapping(value="/getPage",method= RequestMethod.POST)
     public RespBean getCategoryPage(@RequestBody CategoryPagenationVo categoryPagenationVo){
         return prodCategoryService.getCategoryPage(categoryPagenationVo);
+    }
+
+    @ApiOperation(value = "获取全部分类" ,  notes="获取全部分类")
+    @RequestMapping(value="/geAlltCategory",method= RequestMethod.POST)
+    public RespBean geAlltCategory(){
+        return prodCategoryService.geAlltCategory();
     }
 }
