@@ -1,6 +1,7 @@
 package com.atxiaoming.config;
 
 import com.atxiaoming.handler.AuthHandlerInterceptor;
+import com.atxiaoming.handler.CustomAuthHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,6 +15,9 @@ public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
 
     @Autowired
     private AuthHandlerInterceptor authHandlerInterceptor;
+
+    @Autowired
+    private CustomAuthHandlerInterceptor customAuthHandlerInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -32,9 +36,23 @@ public class ItsourceWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/user/**")
                 .addPathPatterns("/menu/**")
                 .addPathPatterns("/pic/**")
+                .addPathPatterns("/prod/**")
+                .addPathPatterns("/prodCategory/**")
                 .excludePathPatterns("/login")
+                .excludePathPatterns("/prodCategory/getAllCategory")
                 .excludePathPatterns("/doc.html/**")
                 .excludePathPatterns("/swagger-ui.html/**")
-                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");;
+                .excludePathPatterns("/cus/**")
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+
+        registry.addInterceptor(customAuthHandlerInterceptor)
+                .addPathPatterns("/cus/shopCart/**")
+                .addPathPatterns("/cus/getCusInfoByToken/**")
+                .excludePathPatterns("/cus/login")
+//                .excludePathPatterns("/**")
+                .excludePathPatterns("/cus/register")
+                .excludePathPatterns("/doc.html/**")
+                .excludePathPatterns("/swagger-ui.html/**")
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
     }
 }

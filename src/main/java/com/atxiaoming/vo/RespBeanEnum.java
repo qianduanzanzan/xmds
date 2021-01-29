@@ -22,6 +22,8 @@ public enum RespBeanEnum {
     ACCOUNT_REPEAT(50008,"账户重复"),
     NAME_REPEAT(50009,"用户名重复"),
     PROD_NOT_SKU(50010,"该产品没有库存信息，不能启用"),
+    SKU_INSUFFICIENT(50011,"库存不足"),
+    CUS_INFO_ERROR(50012,"用户信息错误"),
             ;
 
     private final Integer code;

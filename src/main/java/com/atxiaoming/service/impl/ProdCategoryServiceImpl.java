@@ -104,7 +104,7 @@ public class ProdCategoryServiceImpl extends ServiceImpl<ProdCategoryMapper, Pro
         }
     }
 
-    public RespBean geAlltCategory() {
+    public RespBean getAllCategory() {
         try{
             QueryWrapper wrapper = new QueryWrapper();
             wrapper.eq("stop_flag",0);

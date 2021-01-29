@@ -1,17 +1,12 @@
 package com.atxiaoming.service.impl;
 
-import com.atxiaoming.entity.OssTemplate;
-import com.atxiaoming.entity.Prod;
-import com.atxiaoming.entity.ProdCategory;
-import com.atxiaoming.entity.ProdSku;
+import com.atxiaoming.entity.*;
+import com.atxiaoming.mapper.ProdAttrMapper;
 import com.atxiaoming.mapper.ProdMapper;
 import com.atxiaoming.mapper.ProdSkuMapper;
 import com.atxiaoming.service.IProdService;
 import com.atxiaoming.utils.CommonUtils;
-import com.atxiaoming.vo.ProdEditVo;
-import com.atxiaoming.vo.ProdPaginationVo;
-import com.atxiaoming.vo.RespBean;
-import com.atxiaoming.vo.RespBeanEnum;
+import com.atxiaoming.vo.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +44,9 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
 
     @Autowired
     private ProdSkuMapper prodSkuMapper;
+
+    @Autowired
+    private ProdAttrMapper prodAttrMapper;
 
     public RespBean addProd(String prodName, Integer categoryId, String[] imgs,String description) {
         try{
@@ -158,5 +157,44 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
             imgs_str += "," + uploadFilePath;
         }
         return imgs_str;
+    }
+
+    public RespBean getProdByCate(Integer cateId) {
+        try{
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("category_id",cateId);
+            wrapper.eq("stop_flag",0);
+            Page<Prod> prodIPage = new Page<>(1,5);
+            IPage<Prod> prodPage = prodMapper.selectPage(prodIPage, wrapper);
+            List<ProdResVo> prodResVos = new ArrayList<>();
+            for(Prod prod : prodPage.getRecords()){
+                QueryWrapper wrapper1 = new QueryWrapper();
+                wrapper1.eq("prod_id",prod.getId());
+                wrapper1.gt("sku",0);
+                List<ProdSku> prodSkus = prodSkuMapper.selectList(wrapper1);
+                ProdSku[] prodSkusArray = new ProdSku[prodSkus.size()];
+                prodSkus.toArray(prodSkusArray);
+                prodResVos.add(ProdResVo.toProdResVo(prod,prodSkusArray[0]));
+                prodSkus = new ArrayList<>();
+            }
+            return RespBean.success(prodResVos);
+        }catch (Exception e){
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
+
+    public RespBean getProdDetail(Integer prodId) {
+        try{
+            Prod prod = prodMapper.selectById(prodId);
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("prod_id",prodId);
+            List<ProdAttr> prodAttrs = prodAttrMapper.selectList(wrapper);
+            CustomProdVo customProdVo = new CustomProdVo();
+            customProdVo.setProd(prod);
+            customProdVo.setProdAttrs(prodAttrs);
+            return RespBean.success(customProdVo);
+        }catch (Exception e){
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
     }
 }

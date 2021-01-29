@@ -55,8 +55,8 @@ public class ProdCategoryController {
     }
 
     @ApiOperation(value = "获取全部分类" ,  notes="获取全部分类")
-    @RequestMapping(value="/geAlltCategory",method= RequestMethod.POST)
-    public RespBean geAlltCategory(){
-        return prodCategoryService.geAlltCategory();
+    @RequestMapping(value="/getAllCategory",method= RequestMethod.POST)
+    public RespBean getAllCategory(){
+        return prodCategoryService.getAllCategory();
     }
 }

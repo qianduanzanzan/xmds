@@ -1,5 +1,6 @@
 package com.atxiaoming.utils;
 
+import com.atxiaoming.entity.Customer;
 import com.atxiaoming.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -35,6 +36,39 @@ public class TokenUtil {
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public String createCusToken(Customer customer) {
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+            // 设置头部信息
+            Map<String, Object> header = new HashMap<>(2);
+            header.put("Type", "Jwt");
+            header.put("alg", "HS256");
+
+            return JWT.create()
+                    .withHeader(header)
+                    .withClaim("phone", customer.getPhone())
+                    .withClaim("a",new Date())
+                    .sign(algorithm);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getCusIdFromToken(String token){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT jwt = verifier.verify(token);
+            System.out.println(token);
+            System.out.println(jwt.getClaim("phone").asString());
+            String phone = jwt.getClaim("phone").asString();
+            return phone;
+        } catch (Exception e){
+            return "";
         }
     }
 
