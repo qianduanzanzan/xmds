@@ -8,10 +8,12 @@ import com.atxiaoming.mapper.ShopCartMapper;
 import com.atxiaoming.service.IShopCartService;
 import com.atxiaoming.vo.RespBean;
 import com.atxiaoming.vo.RespBeanEnum;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -32,6 +34,13 @@ public class ShopCartServiceImpl extends ServiceImpl<ShopCartMapper, ShopCart> i
 
     public RespBean addShopCart(String phone, Integer prodId, Integer prodSkuId, Integer quantity) {
         try{
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("phone",phone);
+            wrapper.eq("prod_sku_id",prodSkuId);
+            ShopCart oldShopCart = shopCartMapper.selectOne(wrapper);
+            if(!StringUtils.isEmpty(oldShopCart)){
+                return RespBean.error(RespBeanEnum.PROD_IN_CART);
+            }
             ShopCart shopCart = new ShopCart();
             ProdSku prodSku = prodSkuMapper.selectById(prodSkuId);
             if(quantity > prodSku.getSku()){

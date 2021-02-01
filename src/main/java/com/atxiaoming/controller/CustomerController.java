@@ -45,4 +45,10 @@ public class CustomerController {
     public RespBean getCusInfoByToken(@RequestHeader("token") String token){
         return customerServiceI.getCusInfoByToken(token);
     }
+
+    @ApiOperation(value = "添加地址" ,  notes="添加地址")
+    @RequestMapping(value="/cus/addAddress",method= RequestMethod.POST)
+    public RespBean addAddress(@RequestParam("address") String address,@RequestParam("cusId") String cusId){
+        return customerServiceI.addAddress(address,cusId);
+    }
 }

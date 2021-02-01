@@ -107,4 +107,14 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
             return RespBean.error(RespBeanEnum.ERROR,e);
         }
     }
+
+    public RespBean addAddress(String address, String cusId) {
+        try{
+
+            return RespBean.success();
+        }catch (Exception e){
+            System.out.println(e);
+            return RespBean.error(RespBeanEnum.ERROR,e);
+        }
+    }
 }
